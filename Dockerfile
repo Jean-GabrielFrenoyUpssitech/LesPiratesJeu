@@ -4,6 +4,9 @@ FROM openjdk:17
 # Installer `findutils` (pour Debian/Ubuntu)
 RUN apt-get update && apt-get install -y findutils
 
+# Installer une autre version d'OpenJDK (par exemple OpenJDK 11)
+RUN apt-get update && apt-get install -y openjdk-11-jdk
+
 # Définir le répertoire de travail
 WORKDIR /app
 
