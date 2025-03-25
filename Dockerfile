@@ -1,8 +1,8 @@
 # Utiliser l'image officielle OpenJDK
 FROM openjdk:17
 
-# Installer `findutils` sous Alpine
-RUN apk add --no-cache findutils
+# Installer `findutils` (pour Debian/Ubuntu)
+RUN apt-get update && apt-get install -y findutils
 
 # Définir le répertoire de travail
 WORKDIR /app
