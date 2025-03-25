@@ -8,6 +8,7 @@ public class Jeu implements IAffichage {
 	private Pioche pioche;
 	private static Joueur[] joueurs = new Joueur[2];
 	private static SecureRandom random;
+	private int nbTour=0;
 	static {
 		try {
 			random = SecureRandom.getInstanceStrong();
@@ -16,7 +17,12 @@ public class Jeu implements IAffichage {
 			random = new SecureRandom();
 		}
 	}
-
+	public void setNbTourPlusUn() {
+		nbTour++;
+	}
+	public int getNbTour() {
+		return nbTour;
+	}
 	public static Pioche initPioche() {
 
 		Carte[] cartes = initCartes();
@@ -65,8 +71,9 @@ public class Jeu implements IAffichage {
 		return objetPioche;
 	}
 
-	private static Jeu initJeu() {
+	Jeu initJeu() {
 		Jeu jeu = new Jeu();
+		IAffichage.afficherNbTour(jeu.nbTour);
 
 		Pioche pioche = initPioche();
 
@@ -106,10 +113,11 @@ public class Jeu implements IAffichage {
 			}
 		}
 	}
+	public Joueur[] getJoueur() {
+		return joueurs;
+	}
 
-	public static void main(String[] args) {
-		int nbTour = 0;
-		IAffichage.afficherNbTour(nbTour);
+	/*public static void main(String[] args) {
 		Jeu jeu = initJeu();
 		Joueur joueur = joueurs[0];
 		Joueur adversaire = joueurs[1];
@@ -119,11 +127,11 @@ public class Jeu implements IAffichage {
 
 		while (joueur.getPv() > 0 && adversaire.getPv() > 0 && joueur.getPopularite() < 6
 				&& adversaire.getPopularite() < 6) {
-			nbTour++;
-			IAffichage.afficherNbTour(nbTour);
+			jeu.setNbTourPlusUn();
+			IAffichage.afficherNbTour(jeu.nbTour);
 
-			joueur = joueur.getTourJoueur(nbTour, joueurs);
-			adversaire = adversaire.getTourJoueur(nbTour + 1, joueurs);
+			joueur = joueur.getTourJoueur(jeu.nbTour, joueurs);
+			adversaire = adversaire.getTourJoueur(jeu.nbTour + 1, joueurs);
 			piocher(jeu.getPioche(), joueur);
 			IAffichage.donnerStatusJoueur(joueur, adversaire);
 
@@ -132,6 +140,6 @@ public class Jeu implements IAffichage {
 		}
 		IAffichage.afficherVictoire(joueur, adversaire);
 
-	}
+	}*/
 
 }
