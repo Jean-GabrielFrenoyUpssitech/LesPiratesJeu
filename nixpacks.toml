@@ -3,11 +3,11 @@ nixPkgs = ["openjdk17"]  # Installe Java 17
 
 [phases.build]
 cmds = [
-  "echo 'Listing files in src/jeu and src/affichage...'",
-  "ls src/jeu/*.java",
-  "ls src/affichage/*.java",
-  "mkdir -p bin", 
-  "javac -d bin src/jeu/*.java src/affichage/*.java"
+  "java -version",  # Vérifie la version de Java
+  "ls -l src/jeu/",  # Liste les fichiers Java dans src/jeu/
+  "ls -l src/affichage/",  # Liste les fichiers Java dans src/affichage/
+  "mkdir -p bin",  # Crée le répertoire bin
+  "javac -encoding UTF-8 -d bin src/jeu/*.java src/affichage/*.java"  # Compile les fichiers Java
 ]
 
 [start]
