@@ -1,8 +1,14 @@
 [phases.setup]
-nixPkgs = ["openjdk17"] # Installe Java 17
+nixPkgs = ["openjdk17"]  # Installe Java 17
 
 [phases.build]
-cmds = ["mkdir -p bin && javac -d bin $(ls src/jeu/*.java src/affichage/*.java)"]
+cmds = [
+  "echo 'Listing files in src/jeu and src/affichage...'",
+  "ls src/jeu/*.java",
+  "ls src/affichage/*.java",
+  "mkdir -p bin", 
+  "javac -d bin src/jeu/*.java src/affichage/*.java"
+]
 
 [start]
-cmd = "java -cp bin jeu.Server" # Lance le serveur
+cmd = "java -cp bin jeu.Server"  # Lance le serveur
