@@ -6,40 +6,34 @@ import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String host = "192.168.0.34";  // Remplace par l'IP du serveur
-        int port = 5001;
+        final String SERVER_IP = "monserveur.railway.app"; // Remplace par l'URL de ton serveur Railway
+        final int SERVER_PORT = 5000; // Railway attribue un port dynamique, mais il doit être configuré côté serveur
 
-        try (Socket socket = new Socket(host, port)) {
-            System.out.println("✅ Connecté au serveur sur " + host + ":" + port);
+        try (Socket socket = new Socket(SERVER_IP, SERVER_PORT);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             Scanner scanner = new Scanner(System.in)) {
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            System.out.println("✅ Connecté au serveur sur " + SERVER_IP + ":" + SERVER_PORT);
+            System.out.println("📨 Message du serveur : " + in.readLine());
 
-            // Message d'accueil du serveur
-            System.out.println("Serveur : " + in.readLine());
-
-            // Boucle de jeu
-            String message;
             while (true) {
-                System.out.print("Ton action (jouer une carte / quit) : ");
-                message = scanner.nextLine();
-                out.println(message);
+                System.out.print("💬 Entre une action (ou 'quit' pour quitter) : ");
+                String userInput = scanner.nextLine();
+                out.println(userInput);
 
-                if (message.equalsIgnoreCase("quit")) {
+                if (userInput.equalsIgnoreCase("quit")) {
+                    System.out.println("🔚 Déconnexion du serveur.");
                     break;
                 }
 
-                // Réponse du serveur (état du jeu, action effectuée, etc.)
-                String response = in.readLine();
-                System.out.println("Serveur : " + response);
+                String serverResponse = in.readLine();
+                System.out.println("📩 Réponse du serveur : " + serverResponse);
             }
 
-            System.out.println("🔒 Déconnexion...");
         } catch (IOException e) {
-            System.out.println("❌ Erreur de connexion : " + e.getMessage());
+            System.out.println("❌ Erreur de connexion au serveur.");
+            e.printStackTrace();
         }
-
-        scanner.close();
     }
 }
