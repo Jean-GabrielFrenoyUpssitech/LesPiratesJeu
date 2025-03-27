@@ -2,7 +2,7 @@
 nixPkgs = ["openjdk17"] # Installe Java 17
 
 [phases.build]
-cmds = ["javac -d bin $(find src -name '*.java')"] # Compile ton code
+cmds = ["mkdir -p bin && javac -d bin $(ls src/jeu/*.java src/affichage/*.java)"]
 
 [start]
 cmd = "java -cp bin jeu.Server" # Lance le serveur
