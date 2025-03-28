@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) {
-        String SERVER_IP = "https://ton-nom-du-projet.up.railway.app"; // URL de ton serveur Railway
-        int SERVER_PORT = 80; // Port par défaut pour HTTP
+        String SERVER_IP = "http://lespiratesjeu.up.railway.app"; // URL du serveur sans "/jeu"
+        int SERVER_PORT = 80; // Port HTTP par défaut
 
         try {
-            // URL complète du serveur (endpoint)
-            URL url = new URL(SERVER_IP + "/jeu");
+            // Créer l'URL complète pour envoyer la requête à la racine ("/")
+            URL url = new URL(SERVER_IP);  // Si tu n'as pas de chemin spécifique, utilise la racine.
 
             // Ouverture d'une connexion HTTP vers le serveur
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -21,7 +21,7 @@ public class Client {
             // Scanner pour lire les entrées utilisateur
             Scanner scanner = new Scanner(System.in);
 
-            // Envoyer un premier message au serveur avant de lire la réponse
+            // Demander à l'utilisateur de saisir une action
             System.out.print("Entre une action (ou 'quit' pour quitter) : ");
             String userInput = scanner.nextLine();
 

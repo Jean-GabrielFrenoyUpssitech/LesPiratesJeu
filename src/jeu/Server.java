@@ -15,7 +15,7 @@ public class Server {
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         System.out.println("✅ Serveur HTTP lancé sur le port " + port);
 
-        // Définir le gestionnaire de requêtes HTTP
+        // Définir le gestionnaire de requêtes HTTP pour /jeu
         server.createContext("/jeu", new GameHandler());
 
         // Démarrer le serveur
@@ -41,8 +41,8 @@ public class Server {
                     System.out.println("💬 Message reçu : " + userInput);
                     response = "Action reçue : " + userInput;
                 }
-
             } else {
+                // Si la méthode n'est pas POST (par exemple GET), envoyer un message de bienvenue
                 response = "👋 Bienvenue sur le serveur ! Le jeu commence.";
             }
 
