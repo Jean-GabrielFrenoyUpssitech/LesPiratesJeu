@@ -17,6 +17,10 @@ public class Server {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("👤 Client connecté depuis " + clientSocket.getInetAddress());
 
+                // Envoi du message de bienvenue avant de lancer le thread
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                out.println("👋 Bienvenue sur le serveur ! Le jeu commence.");
+                
                 // Lancer un thread pour chaque client (permet plusieurs joueurs)
                 new Thread(new ClientHandler(clientSocket)).start();
             }
@@ -25,6 +29,7 @@ public class Server {
         }
     }
 }
+
 class ClientHandler implements Runnable {
     private Socket clientSocket;
 
@@ -38,9 +43,7 @@ class ClientHandler implements Runnable {
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true) // Auto-flush activé
         ) {
-            out.println("👋 Bienvenue sur le serveur ! Le jeu commence.");
-            out.flush(); // Forcer l'envoi immédiat du message
-
+            // Message de bienvenue déjà envoyé dans la classe Server, donc ici, on attend les messages du client
             String message;
             while (true) {
                 message = in.readLine();
