@@ -9,7 +9,7 @@ public class Client {
         String SERVER_IP = "lespiratesjeu.up.railway.app"; // Remplace par ton URL Railway
         int SERVER_PORT = 5000; // Assure-toi que c'est bien le port utilisé sur Railway
 
-        try (Socket socket = new Socket("lespiratesjeu.up.railway.app", 5000);
+        try (Socket socket = new Socket("lespiratesjeu.up.railway.app", 12345);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              Scanner scanner = new Scanner(System.in)) {
