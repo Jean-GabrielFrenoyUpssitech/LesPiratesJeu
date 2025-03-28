@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) {
-        String SERVER_IP = "http://lespiratesjeu.up.railway.app"; // URL du serveur HTTP
-        int SERVER_PORT = 8080; // Port utilisé par le serveur HTTP
+        String SERVER_IP = "https://ton-nom-du-projet.up.railway.app"; // URL de ton serveur Railway
+        int SERVER_PORT = 80; // Port par défaut pour HTTP (tu n'as normalement pas besoin de spécifier ce port)
 
         try {
             // URL complète du serveur (endpoint)
-            URL url = new URL(SERVER_IP + ":" + SERVER_PORT + "/jeu");
+            URL url = new URL(SERVER_IP + "/jeu");
 
             // Ouverture d'une connexion HTTP vers le serveur
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
