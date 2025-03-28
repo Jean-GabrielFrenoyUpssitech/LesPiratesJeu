@@ -18,24 +18,12 @@ public class Server {
         // Définir le gestionnaire de requêtes HTTP pour /jeu
         server.createContext("/jeu", new GameHandler());
 
-        // Ajouter une route de test
-        server.createContext("/test", new HttpHandler() {
-            @Override
-            public void handle(HttpExchange exchange) throws IOException {
-                String response = "Serveur fonctionne !";
-                exchange.sendResponseHeaders(200, response.getBytes().length);
-                OutputStream os = exchange.getResponseBody();
-                os.write(response.getBytes());
-                os.close();
-            }
-        });
-
         // Démarrer le serveur
         server.start();
         System.out.println("Serveur démarré...");
     }
 
-    // Le gestionnaire pour traiter les requêtes HTTP pour /jeu
+    // Le gestionnaire pour traiter les requêtes HTTP
     static class GameHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
