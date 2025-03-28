@@ -4,19 +4,21 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class Client {
     public static void main(String[] args) {
-        String SERVER_IP = "http://lespiratesjeu.up.railway.app"; // URL du serveur sans "/jeu"
-        int SERVER_PORT = 80; // Port HTTP par défaut
+        String SERVER_URL = "https://lespiratesjeu.up.railway.app/jeu"; // Remplacer http:// par https://
+        int SERVER_PORT = 443; // Port HTTPS par défaut (443)
 
         try {
-            // Créer l'URL complète pour envoyer la requête à la racine ("/")
-            URL url = new URL(SERVER_IP);  // Si tu n'as pas de chemin spécifique, utilise la racine.
+            // Créer l'URL complète pour envoyer la requête à /jeu
+            URL url = new URL(SERVER_URL);
 
-            // Ouverture d'une connexion HTTP vers le serveur
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoOutput(true); // Activer l'envoi de données
+            // Ouverture d'une connexion HTTPS vers le serveur
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");  // Utiliser POST pour envoyer des données
+            connection.setDoOutput(true);  // Activer l'envoi de données via POST
 
             // Scanner pour lire les entrées utilisateur
             Scanner scanner = new Scanner(System.in);
@@ -38,7 +40,7 @@ public class Client {
 
             // Lire la réponse du serveur après avoir envoyé les données
             int statusCode = connection.getResponseCode();
-            if (statusCode == HttpURLConnection.HTTP_OK) {
+            if (statusCode == HttpsURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String serverMessage;
                 while ((serverMessage = in.readLine()) != null) {
