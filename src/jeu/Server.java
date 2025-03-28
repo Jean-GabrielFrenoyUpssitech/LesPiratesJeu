@@ -10,14 +10,14 @@ public class Server {
 
         try {
             serverSocket = new ServerSocket(port);
-            System.out.println("✅ Serveur lancé sur le port " + port);
+            System.out.println(" Serveur lancé sur le port " + port);
 
             while (true) {
-                System.out.println("⏳ En attente d'un client...");
+                System.out.println(" En attente d'un client...");
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("👤 Client connecté depuis " + clientSocket.getInetAddress());
+                System.out.println(" Client connecté depuis " + clientSocket.getInetAddress());
 
-                // Lancer un thread pour chaque client (permettra plusieurs joueurs)
+                // Lancer un thread pour chaque client (permet plusieurs joueurs)
                 new Thread(new ClientHandler(clientSocket)).start();
             }
         } catch (IOException e) {
@@ -37,17 +37,26 @@ class ClientHandler implements Runnable {
     public void run() {
         try (
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true) // Auto-flush activé
         ) {
-            out.println("👋 Bienvenue sur le serveur ! Le jeu commence.");
+            out.println(" Bienvenue sur le serveur ! Le jeu commence.");
+            out.flush(); // Forcer l'envoi immédiat du message
 
             String message;
-            while ((message = in.readLine()) != null) {
-                System.out.println("💬 Message reçu : " + message);
-                if (message.equalsIgnoreCase("quit")) {
-                    System.out.println("🔚 Un joueur s'est déconnecté.");
+            while (true) {
+                message = in.readLine();
+                if (message == null) { // Vérifier si le client s'est déconnecté
+                    System.out.println(" Client déconnecté ou problème de lecture !");
                     break;
                 }
+
+                System.out.println(" Message reçu : " + message);
+
+                if (message.equalsIgnoreCase("quit")) {
+                    System.out.println(" Un joueur s'est déconnecté.");
+                    break;
+                }
+
                 out.println("Action reçue : " + message);
             }
 
