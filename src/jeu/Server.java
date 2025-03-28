@@ -5,7 +5,7 @@ import java.net.*;
 
 public class Server {
     public static void main(String[] args) {
-        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080")); // Port Railway ou 5000 par défaut
+        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "12345")); // Port Railway ou 5000 par défaut
         ServerSocket serverSocket = null;
 
         try {
