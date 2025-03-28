@@ -16,3 +16,7 @@
 /Server.class
 /ZoneAttaque.class
 /ClientHandler.class
+/JeuApplication.class
+/JeuController.class
+/Server$1.class
+/Server$GameHandler.class

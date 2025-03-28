@@ -6,45 +6,48 @@ import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) {
-        String SERVER_IP = "lespiratesjeu.up.railway.app"; // Remplace par ton URL Railway
-        int SERVER_PORT = 5000; // Assure-toi que c'est bien le port utilisé sur Railway
+        String SERVER_IP = "http://lespiratesjeu.up.railway.app"; // URL du serveur HTTP
+        int SERVER_PORT = 8080; // Port utilisé par le serveur HTTP
 
-        try (Socket socket = new Socket(SERVER_IP, 12345);
-             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-             Scanner scanner = new Scanner(System.in)) {
+        try {
+            // URL complète du serveur (endpoint)
+            URL url = new URL(SERVER_IP + ":" + SERVER_PORT + "/jeu");
 
-            System.out.println(" Connecté au serveur sur " + SERVER_IP + ":" + SERVER_PORT);
+            // Ouverture d'une connexion HTTP vers le serveur
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true); // Activer l'envoi de données
 
-            // Lire le message d'accueil du serveur
-            String serverMessage = in.readLine();
-            if (serverMessage == null) {
-                System.out.println(" Connexion fermée par le serveur.");
-                return;
+            // Scanner pour lire les entrées utilisateur
+            Scanner scanner = new Scanner(System.in);
+
+            // Message de bienvenue du serveur
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String serverMessage;
+            while ((serverMessage = in.readLine()) != null) {
+                System.out.println("Message du serveur : " + serverMessage);
             }
-            System.out.println(" Message du serveur : " + serverMessage);
 
             while (true) {
-                System.out.print(" Entre une action (ou 'quit' pour quitter) : ");
+                System.out.print("Entre une action (ou 'quit' pour quitter) : ");
                 String userInput = scanner.nextLine();
 
                 if (userInput.equalsIgnoreCase("quit")) {
                     break;
                 }
- 
-                out.println(userInput); // Envoyer le message au serveur
+
+                // Envoyer la requête POST avec le message utilisateur
+                connection.getOutputStream().write(userInput.getBytes());
 
                 // Lire la réponse du serveur
-                String response = in.readLine();
-                if (response == null) {
-                    System.out.println(" Connexion perdue avec le serveur.");
-                    break;
+                BufferedReader responseReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String response;
+                while ((response = responseReader.readLine()) != null) {
+                    System.out.println("Réponse du serveur : " + response);
                 }
-
-                System.out.println(" Réponse du serveur : " + response);
             }
 
-            System.out.println(" Déconnexion...");
+            System.out.println("Déconnexion...");
         } catch (IOException e) {
             e.printStackTrace();
         }
