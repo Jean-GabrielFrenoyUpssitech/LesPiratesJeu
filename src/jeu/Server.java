@@ -9,30 +9,24 @@ import java.net.InetSocketAddress;
 
 public class Server {
     public static void main(String[] args) throws IOException {
-        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080")); // Port Railway ou 5000 par défaut
+        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080")); // Port Railway
 
-        // Créer un serveur HTTP
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         System.out.println("✅ Serveur HTTP lancé sur le port " + port);
 
-        // Définir le gestionnaire de requêtes HTTP pour /jeu
         server.createContext("/jeu", new GameHandler());
 
-        // Démarrer le serveur
         server.start();
-        System.out.println("Serveur démarré...");
+        System.out.println("🌍 Serveur démarré sur http://localhost:" + port);
     }
 
-    // Le gestionnaire pour traiter les requêtes HTTP
     static class GameHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             String response;
 
-            // Si la méthode est POST, traiter le message envoyé
             if ("POST".equals(exchange.getRequestMethod())) {
-                InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
-                BufferedReader reader = new BufferedReader(isr);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
                 String userInput = reader.readLine();
 
                 if (userInput == null) {
@@ -42,11 +36,11 @@ public class Server {
                     response = "Action reçue : " + userInput;
                 }
             } else {
-                // Si la méthode n'est pas POST (par exemple GET), envoyer un message de bienvenue
-                response = "👋 Bienvenue sur le serveur ! Le jeu commence.";
+                response = "👋 Bienvenue sur le serveur !";
             }
 
-            // Répondre à la requête
+            // Définir le type de contenu et envoyer la réponse
+            exchange.getResponseHeaders().set("Content-Type", "text/plain");
             exchange.sendResponseHeaders(200, response.getBytes().length);
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());

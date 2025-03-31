@@ -8,7 +8,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Client {
     public static void main(String[] args) {
-        String SERVER_URL = "https://lespiratesjeu.up.railway.app/jeu"; // Remplacer http:// par https://
+    	String SERVER_URL = "http://lespiratesjeu.up.railway.app/jeu"; // Remplacer http:// par https://
         int SERVER_PORT = 443; // Port HTTPS par défaut (443)
 
         try {
