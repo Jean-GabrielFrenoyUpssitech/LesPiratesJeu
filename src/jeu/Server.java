@@ -20,37 +20,24 @@ public class Server {
         System.out.println("🌍 Serveur démarré sur http://l9b4v4se.up.railway.app");
     }
 
-	static class GameHandler implements HttpHandler {
-	    @Override
-	    public void handle(HttpExchange exchange) throws IOException {
-	        System.out.println("🔍 Requête reçue: " + exchange.getRequestMethod() + " " + exchange.getRequestURI());
+    static class GameHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            String response;
 
-	        String response;
-	        
-	        if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-	            BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
-	            String userInput = reader.readLine();
-	            
-	            if (userInput == null || userInput.isEmpty()) {
-	                response = "⚠️ Erreur: Pas de message reçu.";
-	                System.out.println("⚠️ Aucune donnée reçue.");
-	            } else {
-	                System.out.println("💬 Message reçu : " + userInput);
-	                response = "Action reçue : " + userInput;
-	            }
-	        } else {
-	            response = "👋 Bienvenue sur le serveur !";
-	            System.out.println("✅ Réponse envoyée : " + response);
-	        }
+            if ("POST".equals(exchange.getRequestMethod())) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
+                String userInput = reader.readLine();
 
-	        exchange.getResponseHeaders().set("Content-Type", "text/plain");
-	        exchange.sendResponseHeaders(200, response.getBytes().length);
-	        OutputStream os = exchange.getResponseBody();
-	        os.write(response.getBytes());
-	        os.close();
-	    }
-	}
-
+                if (userInput == null) {
+                    response = "⚠️ Erreur: Pas de message reçu.";
+                } else {
+                    System.out.println("💬 Message reçu : " + userInput);
+                    response = "Action reçue : " + userInput;
+                }
+            } else {
+                response = "👋 Bienvenue sur le serveur !";
+            }
 
             // Définir le type de contenu et envoyer la réponse
             exchange.getResponseHeaders().set("Content-Type", "text/plain");
