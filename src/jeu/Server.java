@@ -17,7 +17,7 @@ public class Server {
         server.createContext("/jeu", new GameHandler());
 
         server.start();
-        System.out.println("🌍 Serveur démarré sur http://localhost:" + port);
+        System.out.println("🌍 Serveur démarré sur http://l9b4v4se.up.railway.app");
     }
 
     static class GameHandler implements HttpHandler {
