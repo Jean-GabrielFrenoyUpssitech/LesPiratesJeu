@@ -26,6 +26,7 @@ InetAddress ip = InetAddress.getLocalHost();
         public void handle(HttpExchange exchange) throws IOException {
             String response;
 
+            System.out.println("Requete http recue");
             if ("POST".equals(exchange.getRequestMethod())) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
                 String userInput = reader.readLine();
