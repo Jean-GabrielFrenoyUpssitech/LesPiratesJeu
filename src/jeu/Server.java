@@ -1,6 +1,7 @@
 package jeu;
 
 import com.sun.net.httpserver.HttpServer;
+import java.net.InetAddress;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -10,9 +11,9 @@ import java.net.InetSocketAddress;
 public class Server {
 	public static void main(String[] args) throws IOException {
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080")); // Port Railway
-
+InetAddress ip = InetAddress.getLocalHost();
         HttpServer server = HttpServer.create(new InetSocketAddress("0.0.0.0", port), 0);        
-        System.out.println("✅ Serveur HTTP lancé sur le port " + port);
+        System.out.println("✅ Serveur HTTP lancé sur le port " + port+"Ip : "+ip.getHostAddress());
 
         server.createContext("/jeu", new GameHandler());
 
